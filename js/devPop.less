@@ -1,0 +1,64 @@
+@height : 600px;
+@width :400px;
+
+/* utility */
+.devPopModal img {
+    max-width:100%;
+    height:auto;
+}
+
+.noscroll { overflow:hidden }
+
+
+/* modal */
+#devPop .devPopModal {
+    width  : @width;
+    height : @height;
+
+    background : white;
+    overflow   : scroll;
+    padding    : 8px;
+
+    position : absolute;
+    z-index  : 10000000;
+    top      : 20;
+
+    border-radius: 2px;
+}
+
+/* modal close */
+#devPop .close {
+    position:absolute;
+    z-index  : 10000001;
+    right:10px;
+    top:0px;
+    padding:5px 6px;
+
+    border-radius:0 0 3px 3px;
+    color:#ccc;
+}
+
+/* background */
+#devPop .devPopBg {
+    height : 100%;
+    width  : 100%;
+
+    background : black;
+    background : rgba(0,0,0,0.8);
+
+    /* default layout */
+    position : absolute;
+    z-index  : 9999999;
+    top      : 0;
+    left     : 0;
+
+    /* animate to 1 on click */
+    opacity: 0;
+}
+
+/* pos: absolute instead of fix
+ * using js to follow scroll location */
+
+/* Container DO-NOT TOUCH */
+#devPop { height:100%; width:100%;
+position:absolute; top:0; left:0 }
