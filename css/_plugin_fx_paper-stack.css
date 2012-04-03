@@ -1,0 +1,8 @@
+.paperstack {
+  background: #eeeeee;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), /* The top layer shadow */
+              0 10px 0 -5px #e5e5e5, /* The second layer */
+              0 10px 1px -4px rgba(0, 0, 0, 0.25), /* The second layer shadow */
+              0 20px 0 -11px #e1e1e1, /* The third layer */
+              0 20px 1px -9px rgba(0, 0, 0, 0.25); /* The third layer shadow */
+}
