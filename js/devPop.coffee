@@ -1,3 +1,7 @@
+###
+v 0.1
+###
+
 $ = jQuery
 
 $(document).ready ->
@@ -100,7 +104,7 @@ $.fn.extend {}=
 # ====================================
 _createModal = () ->
   # add containers
-  $('body').prepend('<div id="devPop" style="display:none"><div class="devPopModal paperstack"><span class="close">X</span></div><div class="devPopBg"/></div>')
+  $('body').prepend('<div id="devPop" style="display:none"><div class="devPopModal"><span class="close">X</span></div><div class="devPopBg"/></div>')
   
   log ' - modal created'
 

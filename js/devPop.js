@@ -1,3 +1,8 @@
+
+/*
+v 0.1
+*/
+
 (function() {
   var $, _createModal, _setupDom;
 
@@ -77,7 +82,7 @@
 
   _createModal = function() {
     var $height, $width;
-    $('body').prepend('<div id="devPop" style="display:none"><div class="devPopModal paperstack"><span class="close">X</span></div><div class="devPopBg"/></div>');
+    $('body').prepend('<div id="devPop" style="display:none"><div class="devPopModal"><span class="close">X</span></div><div class="devPopBg"/></div>');
     log(' - modal created');
     $height = $('.devPopModal').height();
     log($width = ($(window).width() - $('.devPopModal').outerWidth()) / 2);
