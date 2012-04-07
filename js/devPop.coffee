@@ -1,42 +1,50 @@
 ###
-v 0.1
+v 0.1.1
 ###
 
 $ = jQuery
 
+# quit init this plugin
 $(document).ready ->
   $('.popit').devPop({debug:true})
 
-$.fn.extend {}=
+  # add css into dom
+  $('head').append('<link rel="stylesheet" type="text/css" href="">')
+  
+
+$.fn.extend {} =
   devPop: (options) ->
+
     settings =
       width  : 500
       height : 600
       debug  : false
-      
-    settings = $.extend settings, options
-    
-    window.log = (msg) ->      # Simplify logger()
-      console?.log msg if settings.debug
-    
-    # create devPop
-    log '+ creating modal'
-    _createModal(settings.height, settings.width)
 
-    # _Insert magic here._
+    settings = $.extend settings, options
+
+    window.log = (msg) -> # loger
+      console?.log msg if settings.debug
+
+    o = settings
+
+    $container = $('#devPop')
+    $modal     = $container.find('.devPopModal')
+    $bg        = $container.find('.devPopBg')
+
+    log '+ create modal'
+    _createModal(o.height, o.width)
+
+    # each obj
     return @each ()->
 
       log "** devPop init for: " + $(@).attr('href')
 
-      o         = settings
-      obj       = $(@)
+      obj     = $(@)
+      $id     = obj.attr('href')
+      $target = $($id)
 
-      $id       = obj.attr('href')
-      $target   = $($id)
-
-      $pop      = $('#devPop')
-      $popModal = $pop.find('.devPopModal')
-      $popBg    = $pop.find('.devPopBg')
+      log '+ setup dom'
+      _setupDom(obj)
 
       # keep position with scroll
       # simulate position:fix for mobile devices
@@ -45,92 +53,165 @@ $.fn.extend {}=
             top: $(window).scrollTop()
       )
 
-      log '+ set up dom'
-      _setupDom(obj)
-
-      # show on object click
-      # ==============================
-      obj.on('click', $target, (e)->
-        log '+ click action'
+      # click open : if !animate
+      obj.on('click', (e)->
         e.preventDefault()
-        $target.show()
-               .siblings('div')
-               .hide()
 
-        # animate bg and modal open
-        $popBg.animate
-          opacity:1
-        , 150, ->
-          $popModal.animate
-            top: 50
-          , 500
-
-
-        log ' - show content'
-        $('#devPop').show()
-
-        $('html').addClass('noscroll')
-
-        # find width and position $modal
-          
+        if  $('.devPopModal:animated').length < 1 
+          _rebuildModal(obj, o.width, o.height)
+          _openModal(obj)
       )
 
-      # hide on click
-      # ==============================
-      $('body').on('click', '.devPopBg, .devPopModal span.close', (e)->
+      # click close : if !animate
+      $('body').on('click', 'html, .devPopBg, .devPopModal span.close', (e)->
         e.preventDefault()
 
-        $popModal.animate
-          top: -1000
-        , 'fast', ->
-          $popBg.animate
-            opacity: 0
-          , 'slow' , ->
-            $('#devPop').hide()
-
-        $('html').removeClass('noscroll')
-
+        if  $('.devPopModal:animated').length < 1 
+          _closeModal()
       )
 
       log "\n========== END =========== \n "
 
+      
 
-# ====================================
-# functions
-# ====================================
+###
+functions
+###
 
-
-# create modal
-# ====================================
-_createModal = () ->
-  # add containers
-  $('body').prepend('<div id="devPop" style="display:none"><div class="devPopModal"><span class="close">X</span></div><div class="devPopBg"/></div>')
+# Creats essential elements
+# ================================
+_createModal = ($h, $w) ->
+  log ' - creating modal init'
   
-  log ' - modal created'
+  log ' - building containers'
+  $modal = '<div class="devPopModal" />'
+  $close = '<span class="close">X</span>'
+  $close = $($close)
+  $bg    = '<div class="devPopBg" />'
+  $bg    = $($bg)
 
-  $height = $('.devPopModal').height()
-  log $width = ( $(window).width() - $('.devPopModal').outerWidth() ) / 2
-  log $('.devPopModal').width()
-  log $('.devPopModal').outerWidth()
-  log $(window).width()
+  # add close button
+  $modal = $($modal).prepend($close) 
 
-  $('.devPopModal').css
-    top: -1 * ($height + 50)
-    left: $width
+  $container = '( <div id="devPop" /> )'
+  $container = $($container)
+  $container = $container.prepend($modal)
+  $container = $container.prepend($bg)
 
-# build each obj
-# ====================================
+  $('body').prepend($container)
+
+  log ' - building styles'
+
+  # setup styles
+  $close.css
+    'z-index': 2140000010
+
+  $modal.css
+    width     : $w
+    height    : $h
+    top       : - $h
+    'z-index' : 2140000006
+
+  $bg.css
+    width     : '100%'
+    height    : '100%'
+    'z-index' : 2140000003
+
+  $container.css
+    display : 'none'
+    'z-index': 2140000000
+
+
+
+# setup each obj
+# ================================
 _setupDom = (el) ->
-  $id       = el.attr('href')
-  $target   = $($id)
-  $pop      = $('#devPop')
-  $popModal = $pop.find('.devPopModal')
+  $id        = el.attr('href')
+  $target    = $($id)
+  $container = $('#devPop')
+  $modal     = $container.find('.devPopModal')
 
-  log ' - hide content on init'
+  $windowWidth = $(window).width()
+  $modalWidth = $modal.outerWidth()
+
+  log ' - hide container on init'
   $target.css
-    'display':'none'
+    'display' : 'none'
 
-  log ' - move content to modal'
-  $target.prependTo($popModal)
+  log ' - relocate target to modal'
+  $target.prependTo($modal)
 
-  log ' - dom set'
+  $modal.css
+    left: ( $windowWidth - $modalWidth ) / 2
+
+
+
+
+# rebuild modal on click
+# ================================
+_rebuildModal = (el, $w, $h) ->
+  log ' - rebuild size if data- exists'
+
+  $modal = $('#devPop .devPopModal')
+
+  $newh = el.data('height')
+  $neww = el.data('width')
+
+  $modal.css
+    height: if $newh then $newh else $h
+    width: if $neww then $neww else $w
+
+  $modalWidth = $modal.outerWidth()
+  $windowWidth = $(window).width()
+
+  $modal.css
+    left : ($windowWidth - $modalWidth) / 2
+
+  if !el.data('unlock')
+    $('html').addClass('noscroll')
+
+# open animation
+# ================================
+window._openModal = (el) ->
+  $container = $('#devPop')
+  $bg = $container.find('.devPopBg')
+  $modal = $container.find('.devPopModal')
+  $target = el.attr('href')
+  $target = $($target)
+   
+  $top = el.data('top')
+
+  log ' - show conainer'
+  $container.show()
+
+  log ' - show hide related content'
+  $target.show()
+         .siblings('div')
+         .hide()
+
+  log ' - animate bg and modal'
+  $bg.animate
+    opacity : 1
+  , 250, ->
+    $modal.animate
+      top: ( if $top then $top else 0 )
+    , 500
+
+
+
+# close animation
+# ================================
+window._closeModal = () ->
+  $container = $('#devPop')
+  $bg = $container.find('.devPopBg')
+  $modal = $container.find('.devPopModal')
+
+  $modal.animate
+    top: -1000
+  , 'fast', ->
+    $bg.animate
+      opacity: 0
+    , 'slow' , ->
+      $('#devPop').hide()
+
+  $('html').removeClass('noscroll')
