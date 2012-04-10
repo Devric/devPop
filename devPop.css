@@ -1,0 +1,65 @@
+/* utility */
+.devPopModal img {
+  max-width: 100%;
+  height: auto;
+}
+.noscroll {
+  overflow: hidden;
+}
+
+/* modal */
+#devPop .devPopModal {
+  background: white;
+  overflow: scroll;
+  padding: 8px;
+  border-radius: 2px;
+  background: #eeeeee;
+
+  /* paper stack styles */
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), /* The top layer shadow */
+ 0 10px 0 -5px #e5e5e5, /* The second layer */
+ 0 10px 1px -4px rgba(0, 0, 0, 0.25), /* The second layer shadow */
+ 0 20px 0 -11px #e1e1e1, /* The third layer */
+ 0 20px 1px -9px rgba(0, 0, 0, 0.25); /* The third layer shadow */
+
+}
+/* modal close */
+#devPop .close {
+  right: 10px;
+  top: 0px;
+  padding: 5px 6px;
+  border-radius: 0 0 3px 3px;
+  color: #ccc;
+  cursor: pointer
+}
+
+
+/* ============
+ * DO-NOT TOUCH 
+ * ============ */
+
+/* container and background size */
+#devPop,
+#devPop .devPopBg{
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+#devPop .devPopBg {
+  background: black;
+  background: rgba(0, 0, 0, 0.8);
+
+  /* defaut 0 animate to 1 on click */
+  opacity: 0;
+}
+
+/* pos: absolute instead of fix
+ * using js to follow scroll location */
+
+/* absolute */
+#devPop,
+#devPop .devPopModal,
+#devPop .devPopBg,
+#devPop .close { position:absolute }
