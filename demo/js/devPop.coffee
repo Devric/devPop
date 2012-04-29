@@ -1,12 +1,11 @@
-###
-v 0.1.1
-###
+if window.version == undefined then window.version = {}
+version['devTab'] = '0.1.2'
 
 $ = jQuery
 
-# quit init this plugin
+# quik init this plugin
 $(document).ready ->
-  $('.popit').devPop({debug:true})
+  $('.popit').devPop({debug:false})
 
   # add css into dom
   $('head').append('<link rel="stylesheet" type="text/css" href="">')
@@ -33,6 +32,15 @@ $.fn.extend {} =
 
     log '+ create modal'
     _createModal(o.height, o.width)
+    
+
+    # keep position with scroll
+    # simulate position:fix for mobile devices
+    $(window).scroll( ->
+      $('#devPop').css
+          top: $(window).scrollTop()
+    )
+
 
     # each obj
     return @each ()->
@@ -46,12 +54,6 @@ $.fn.extend {} =
       log '+ setup dom'
       _setupDom(obj)
 
-      # keep position with scroll
-      # simulate position:fix for mobile devices
-      $(window).scroll( ->
-        $('#devPop').css
-            top: $(window).scrollTop()
-      )
 
       # click open : if !animate
       obj.on('click', (e)->
@@ -61,6 +63,7 @@ $.fn.extend {} =
           _rebuildModal(obj, o.width, o.height)
           _openModal(obj)
       )
+    
 
       # click close : if !animate
       $('body').on('click', 'html, .devPopBg, .devPopModal span.close', (e)->
@@ -169,6 +172,7 @@ _rebuildModal = (el, $w, $h) ->
 
   if !el.data('unlock')
     $('html').addClass('noscroll')
+
 
 # open animation
 # ================================

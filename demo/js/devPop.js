@@ -1,16 +1,15 @@
-
-/*
-v 0.1.1
-*/
-
 (function() {
   var $, _createModal, _rebuildModal, _setupDom;
+
+  if (window.version === void 0) window.version = {};
+
+  version['devTab'] = '0.1.2';
 
   $ = jQuery;
 
   $(document).ready(function() {
     $('.popit').devPop({
-      debug: true
+      debug: false
     });
     return $('head').append('<link rel="stylesheet" type="text/css" href="">');
   });
@@ -35,6 +34,11 @@ v 0.1.1
       $bg = $container.find('.devPopBg');
       log('+ create modal');
       _createModal(o.height, o.width);
+      $(window).scroll(function() {
+        return $('#devPop').css({
+          top: $(window).scrollTop()
+        });
+      });
       return this.each(function() {
         var $id, $target, obj;
         log("** devPop init for: " + $(this).attr('href'));
@@ -43,11 +47,6 @@ v 0.1.1
         $target = $($id);
         log('+ setup dom');
         _setupDom(obj);
-        $(window).scroll(function() {
-          return $('#devPop').css({
-            top: $(window).scrollTop()
-          });
-        });
         obj.on('click', function(e) {
           e.preventDefault();
           if ($('.devPopModal:animated').length < 1) {
