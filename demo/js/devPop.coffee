@@ -1,5 +1,6 @@
-if window.version == undefined then window.version = {}
-version['devTab'] = '0.1.2'
+###
+v 0.1.1
+###
 
 $ = jQuery
 

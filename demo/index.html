@@ -3,20 +3,29 @@
     <head>
         <meta charset="utf-8" />
         <title></title>
-        <link rel="stylesheet" type="text/css" href="css/devPop.css" />
-        <link rel="stylesheet" type="text/css" href="css/_plugin_fx_paper-stack.css" />
+        <link rel="stylesheet" type="text/css" href="css/popit.css" />
         <script>!window.jQuery && document.write('<script src="js/jquery.js"><\/script>')</script>
-        <script type="text/javascript" src="js/devPop.js"></script>
+
+        <script type="text/javascript">
+
+        </script>
+
+        <script type="text/javascript" src="js/popit.js"></script>
+        <!-- 
+        <script type="text/javascript" src="js/memory_leak_checker.js"></script>
+        -->
         <script language="javascript" type="text/javascript">
             $(document).ready(function() {
-                   
+                $('.popit').popIt({debug:true, height:100, options: 2});
+                $('.popitt').popIt({debug:true, height:100, options:4});
             });
         </script>
 
     </head>
     <body style="margin:0 auto; width: 500px;">
         <a href="#popit" title="this is popit title" class="popit">popthis</a>
-        <div id="popit">
+        <a href="#popitt" title="this is popit title" class="popit">popthis</a>
+        <div id="popone">
             <p>this is popit just pop it</p>
             <img src="img/1.jpg" />
         </div>

@@ -1,9 +1,10 @@
+
+/*
+v 0.1.1
+*/
+
 (function() {
   var $, _createModal, _rebuildModal, _setupDom;
-
-  if (window.version === void 0) window.version = {};
-
-  version['devTab'] = '0.1.2';
 
   $ = jQuery;
 

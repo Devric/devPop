@@ -1,0 +1,61 @@
+/*
+#popit { }
+#popit .content { }
+#popit .close   { }
+#popit .bg      { }
+*/
+
+
+
+/**
+ * The content container
+ */
+#popit .content {
+    background:white;
+    width:500px;
+    height:500px;
+    margin:0 auto;
+
+    position:relative;
+    z-index:1000000001;
+}
+
+/**
+ * Close button
+ * ( hide this, if you don't like it )
+ * add .close element for close button
+ */
+#popit .close {
+    
+}
+
+
+/** =======================
+ *  SHOULDN'T NEED TO TOUCH
+ *  =======================
+ */
+
+/**
+ * Modal background color 
+ * Clickable(close) 
+ */
+#popit .bg {
+    background: black;
+    background: rgba(0,0,0,0.85);
+    z-index:1000000000;
+}
+
+/**
+ * Contaienr 
+ */
+#popit, #popit .bg {
+    /* size, should be full screen */
+    width: 100%;
+    height: 100%;
+
+    /* positioning */
+    position: fixed;
+    z-index:999999999;
+    top: 0;
+    left: 0;
+}
